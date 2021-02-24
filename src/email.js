@@ -5,8 +5,8 @@ class Email extends Component {
     checkEmail() {
         var email = document.getElementById("email").value;
         var output = document.getElementById("output");
-        
-        if (email.includes("@") && (email.includes(".com"))) {
+
+        if (email.includes("@") && (email.endsWith(".com"))) {
             output.innerHTML ="Email successfully recorded";
         }
         else {
