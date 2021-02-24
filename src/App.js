@@ -14,38 +14,83 @@ class App extends Component {
     this.changeTab=(id) => {
       this.setState({active: id});  
     }
+    this.scrollHandler = this.scrollHandler.bind(this);
+    this.scrollBtn = this.scrollBtn.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.scrollHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollHandler);
+  }
+
+  scrollHandler(event) {
+    this.scrollBtn();
+  }
+
+  scrollBtn() {
+    var scrollBtn = document.getElementById("btn");
+
+    if(document.body.scrollTop > window.innerHeight * 0.25 || document.documentElement.scrollTop > window.innerHeight * 0.25) {
+        scrollBtn.style.display = "block";
+    }
+    else {
+        scrollBtn.style.display = "none";
+    }
+  }
+
+  scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    this.scrollBtn();
+  }
+
+
 
   render() {
   
     const tabs = [{
       id:0, 
-      title: "aboutme"
+      title: "About Me"
+    },
+    {
+      id:1, 
+      title: "Images"
+    }, 
+    {
+      id:2, 
+      title: "Videos"
+    },
+    {
+      id:3, 
+      title: "Table"
+    },
+    {
+      id:4, 
+      title: "Email"
     }
     ];
 
 
     return (<>
       
-      <div className="header">
-        <h1> Milo </h1>
+      <div className="topheader">
+        <h1> Milo <img class="sub" src="pawprint.png" /> </h1>
+        <p> The Golden Retriever Puppy</p>
       </div>
-      
-  
     
-      <Body active = {this.state.active}/>
-      <button onclick={this.scrollToTop}>  Click to scroll up</button>
+      <div className="nav">
+        <Tablist tabs = {tabs} activetab = {this.state.active} ctab={this.changeTab}/>
+      </div>
+    
+      <Body activetab = {this.state.active}/>
+
+      <button id="btn" onClick={this.scrollToTop}>Scroll Up</button>
       
     </>);
-
-/*
-<div className="nav">
-        Tablist tabs = {tabs} active = {this.state.active} ctab={this.changeTab}/>
-      </div>
-      */
-        
-      
-    
 
   }
   
